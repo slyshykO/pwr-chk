@@ -1,0 +1,12 @@
+[package]
+name = "pwr-chk"
+version = "0.1.0"
+edition = "2021"
+authors = ["Oleksiy Slyshyk"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1"
+clap = {version = "4", features = [ "derive" ] }
+tokio = { version = "1", features = [ "macros", "process", "signal", "sync", "rt", "time"] }

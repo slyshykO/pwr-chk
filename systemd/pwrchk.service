@@ -1,0 +1,17 @@
+[Unit]
+Description=Powercheck service.
+After=syslog.target
+After=network.target
+
+[Service]
+PIDFile=/run/pwrchk.pid
+ExecStart=/opt/bin/pwr-chk -p 192.168.0.1 -d 90
+ExecStop=/bin/kill -15 $MAINPID
+Restart=always
+RestartSec=3
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=pwrchk
+
+[Install]
+WantedBy=multi-user.target
