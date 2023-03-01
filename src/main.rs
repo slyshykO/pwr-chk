@@ -4,11 +4,10 @@
 //systemctl enable pwrchk
 //systemctl start pwrchk
 
-
-use tokio::{signal, sync::watch};
 use clap::Parser;
+use tokio::{signal, sync::watch};
 
-const VERSION:&str = env!("CARGO_PKG_VERSION");
+const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[derive(Parser)]
 #[clap(author, version = VERSION, about, long_about = None)]
@@ -21,7 +20,6 @@ struct AppParams {
 
 #[tokio::main(flavor = "current_thread")]
 pub async fn main() -> anyhow::Result<()> {
-
     let args = AppParams::parse();
 
     let (sender, mut receiver) = watch::channel(());
@@ -61,7 +59,7 @@ pub async fn main() -> anyhow::Result<()> {
 
 async fn check<R: AsRef<str>>(ip: R) -> bool {
     match tokio::process::Command::new("ping")
-        .args(["-W","0.5","-c", "1"])
+        .args(["-W", "0.5", "-c", "1"])
         .arg(ip.as_ref())
         .stdout(std::process::Stdio::null())
         .spawn()
@@ -75,9 +73,7 @@ async fn check<R: AsRef<str>>(ip: R) -> bool {
                 eprintln!("{}[{}:{}]", e, file!(), line!());
                 false
             }
-            Ok(status) => {
-                status.code().unwrap_or(0) == 0
-            }
+            Ok(status) => status.code().unwrap_or(0) == 0,
         },
     }
 }
